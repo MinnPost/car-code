@@ -17,8 +17,12 @@
 }
 
 .mp .filter-form .form-item .button-group {
-  margin-bottom: 0;
-  margin-right: 3em;
+  margin: 0;
+}
+
+.mp .filter-form .checkbox,
+.mp .filter-form .form-item {
+  margin-right: 1em;
 }
 
 .mp .repo-list {
@@ -33,6 +37,23 @@
   margin-bottom: .1em;
 }
 
+.mp .repo-list .repo h4 a {
+  color: #282828;
+}
+
+.mp .repo-list .repo h4 a:hover {
+  text-decoration: underline;
+}
+
+.mp .repo-list .repo .language-mark {
+  opacity: .85;
+  padding-left: .5em;
+}
+
+.mp .repo-list .repo .fa {
+  padding-left: .5em;
+}
+
 .mp .limit-note {
   text-align: center;
   margin-bottom: 4em;
@@ -40,4 +61,31 @@
 
 .mp .footnote {
   margin-bottom: 4em;
+}
+
+
+@media screen and (max-width: 880px) {
+  .mp .filter-form {
+    margin-bottom: 3em;
+    padding: 2em 1em 1em 1em;
+  }
+
+  .mp .filter-form .form-part {
+    width: 50%;
+    min-height: 3em;
+    margin-right: 0em;
+    margin-bottom: 1em;
+    float: left;
+    display: block;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .mp .filter-form .form-part {
+    width: 100%;
+    min-height: 3em;
+    margin-right: 0;
+    margin-bottom: 1.5em;
+    float: none;
+  }
 }

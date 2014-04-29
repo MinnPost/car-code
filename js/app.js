@@ -3,7 +3,7 @@
  */
 
 // Create main application
-define(['jquery', 'underscore', 'ractive', 'ractive-backbone', 'ractive-transitions-fade', 'ractive-events-tap', 'mpConfig', 'parts'], function($, _, Ractive, RB, RTF, RET, mpConfig, p) {
+define(['jquery', 'underscore', 'ractive', 'ractive-backbone', 'ractive-transitions-fade', 'ractive-events-tap', 'parts'], function($, _, Ractive, RB, RTF, RET, p) {
 
   // Constructor for app
   var App = function(options) {
@@ -18,18 +18,22 @@ define(['jquery', 'underscore', 'ractive', 'ractive-backbone', 'ractive-transiti
 
     // Initializer
     start: function() {
+      var thisApp = this;
+
       // Model to help with state and options
-      this.state = new p.BaseModel({
+      this.state = new p.StateModel({
         sort: 'created',
         include_forked: false,
-        language: null,
-        search: null,
-        limit: 20
+        language: '',
+        search: '',
+        limit: 50
       });
 
       // Collections
       this.users = new p.UserCollection(null, { state: this.state });
       this.repos = new p.RepoCollection(null, { state: this.state });
+      this.languages = new p.LanguageCollection(null, { state: this.state });
+
 
       // Main view for application
       this.view = new Ractive({
@@ -38,15 +42,22 @@ define(['jquery', 'underscore', 'ractive', 'ractive-backbone', 'ractive-transiti
         data: {
           users: this.users,
           repos: this.repos,
-          state: this.state
+          state: this.state,
+          languages: this.languages,
+          thing: true,
+          getLanguage: function(id) {
+            return thisApp.languages.get(id).toJSON();
+          }
         },
         adapt: ['Backbone']
       });
       this.events();
 
-      // Get data
-      this.users.fetch();
-      this.repos.fetch();
+      // Get data, get languages first
+      this.languages.fetch().done(function() {
+        thisApp.users.fetch();
+        thisApp.repos.fetch();
+      });
     },
 
     // Handle events
@@ -67,6 +78,12 @@ define(['jquery', 'underscore', 'ractive', 'ractive-backbone', 'ractive-transiti
       this.view.on('sort', function(e, sort) {
         e.original.preventDefault();
         thisApp.state.set('sort', sort);
+      });
+
+      // Search.  We make people use the button to reduce number of calls
+      this.view.on('search', function(e) {
+        e.original.preventDefault();
+        thisApp.state.set('search', this.get('search_proxy'));
       });
     },
 

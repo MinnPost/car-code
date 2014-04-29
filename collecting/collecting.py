@@ -13,7 +13,7 @@ if 'GITHUB_TOKEN' in os.environ:
   api_token = os.environ['GITHUB_TOKEN']
 
 # List of users/orgs that we want to track
-accounts = ['minnpost', 'nytimes', 'propublica', 'datadesk', 'texastribune', 'guardianinteractive', 'newsapps', 'nprapps', 'wnyc']
+accounts = ['minnpost', 'nytimes', 'propublica', 'datadesk', 'texastribune', 'guardianinteractive', 'newsapps', 'nprapps', 'wnyc', 'washingtonpost', 'guardian', 'openNews']
 
 
 # Print json nicely
@@ -63,8 +63,8 @@ def get_repos():
     repos = make_request('users/%s/repos' % (a))
     for repo in repos:
       data = {
-        'repo_id': '%s-%s' % (a.lower(), repo['name'].lower()),
-        'user_id': a.lower(),
+        'repo_id': repo['id'],
+        'user_id': repo['owner']['id'],
         'login': repo['owner']['login'],
         'name': repo['name'],
         'description': repo['description'],
@@ -83,7 +83,7 @@ def get_users():
   for a in accounts:
     user = make_request('users/%s' % (a))
     data = {
-      'user_id': a.lower(),
+      'user_id': user['id'],
       'login': user['login'],
       'name': user['name'],
       'avatar': user['avatar_url'],
@@ -96,7 +96,22 @@ def get_users():
     scraperwiki.sqlite.save(['user_id'], data, 'users')
 
 
+# Make index for full text searching
+def make_index():
+  tables = scraperwiki.sqlite.show_tables()
+  if 'repo_index' not in tables:
+    scraperwiki.sqlite.execute('CREATE VIRTUAL TABLE repo_index USING fts4(repo_id INT, content)')
+    scraperwiki.sqlite.commit()
 
-# Main stuf
+  # Update content, remove all first
+  scraperwiki.sqlite.execute('DELETE FROM repo_index')
+  scraperwiki.sqlite.commit()
+  scraperwiki.sqlite.execute("INSERT INTO repo_index (repo_id, content) SELECT repo_id, name || ' ' || description || ' ' || language || ' ' || login FROM repos")
+  scraperwiki.sqlite.commit()
+  # Use with SELECT repo_id FROM repo_index WHERE content MATCH 'string'
+
+
+# Main stuff
 get_users()
 get_repos()
+make_index()
