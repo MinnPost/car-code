@@ -29,13 +29,13 @@
 
     <!-- Templates -->
     <script type="text/template" id="application-template">
-      <form role="form" class="form-inline filter-form small bg-color-lightest-gray">
+      <form on-submit="prevent" role="form" class="form-inline filter-form small bg-color-lightest-gray">
 
         <div class="form-item">
           <label for="sort-buttons">Sort by</label>
           <div class="button-group">
-            <button class="button primary {{#(state.sort === 'created')}}active{{/()}}">Created</button>
-            <button class="button primary {{#(state.sort === 'updated')}}active{{/()}}">Updated</button>
+            <button on-tap="sort:created" class="button primary {{#(state.sort === 'created')}}active{{/()}}">Created</button>
+            <button on-tap="sort:updated" class="button primary {{#(state.sort === 'updated')}}active{{/()}}">Updated</button>
           </div>
         </div>
 
@@ -55,13 +55,19 @@
         {{/()}}
 
         {{#repos}}
-          <div class="repo" intro-outro="fade:1000">
+          <div class="repo" intro="fade:1000">
             <h4><a href="{{ url }}">{{ name }}</a></h4>
             <p><small class="color-medium-gray">{{ login }}</small></p>
 
             <p>{{ description }} {{^description}}(no description){{/description}} {{#language}}({{ language }}){{/language}}</p>
           </div>
         {{/repos}}
+
+        {{#(repos.length >= state.limit)}}
+          <div class="limit-note color-gray small">
+            Only looking for the top {{ state.limit }} results, filter or search to see more.
+          </div>
+        {{/()}}
       </div>
     </script>
 

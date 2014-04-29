@@ -24,6 +24,7 @@
     "requirejs": "~2.1.11",
     "moment": "~2.6.0",
     "ractive-backbone": "master",
-    "ractive-transitions-fade": "~0.1.2"
+    "ractive-transitions-fade": "~0.1.2",
+    "ractive-events-tap": "~0.1.1"
   }
 }

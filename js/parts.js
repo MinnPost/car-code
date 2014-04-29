@@ -1,7 +1,7 @@
 /**
  * Various parts used in application.
  */
-define(['underscore', 'backbone'], function(_, Backbone) {
+define(['underscore', 'backbone', 'moment'], function(_, Backbone, moment) {
   var parts = {};
 
   // Models
@@ -21,6 +21,18 @@ define(['underscore', 'backbone'], function(_, Backbone) {
 
     initialize: function(models, options) {
       this.options = options;
+    },
+
+    parse: function(response) {
+      return _.map(response, function(r, ri) {
+        if (r.created) {
+          r.created = moment(r.created);
+        }
+        if (r.updated) {
+          r.updated = moment(r.updated);
+        }
+        return r;
+      });
     }
   });
 

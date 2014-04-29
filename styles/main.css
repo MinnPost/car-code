@@ -21,10 +21,23 @@
   margin-right: 3em;
 }
 
+.mp .repo-list {
+  margin-bottom: 4em;
+}
+
 .mp .repo-list .repo {
   margin-bottom: 4em;
 }
 
 .mp .repo-list .repo h4 {
   margin-bottom: .1em;
+}
+
+.mp .limit-note {
+  text-align: center;
+  margin-bottom: 4em;
+}
+
+.mp .footnote {
+  margin-bottom: 4em;
 }
