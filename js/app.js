@@ -26,7 +26,8 @@ define(['jquery', 'underscore', 'ractive', 'ractive-backbone', 'ractive-transiti
         include_forked: false,
         language: '',
         search: '',
-        limit: 50
+        limit: 50,
+        disableInput: true
       });
 
       // Collections
@@ -56,7 +57,7 @@ define(['jquery', 'underscore', 'ractive', 'ractive-backbone', 'ractive-transiti
       // Get data, get languages first
       this.languages.fetch().done(function() {
         thisApp.users.fetch();
-        thisApp.repos.fetch();
+        thisApp.fetchCollection(thisApp.repos);
       });
     },
 
@@ -65,8 +66,10 @@ define(['jquery', 'underscore', 'ractive', 'ractive-backbone', 'ractive-transiti
       var thisApp = this;
 
       // If state model changes, update data
-      this.state.on('change', function() {
-        thisApp.update();
+      this.state.on('change:include_forked change:sort change:search change:language', function() {
+        if (!this.get('disableInput')) {
+          thisApp.update();
+        }
       });
 
       // General prevent
@@ -89,9 +92,26 @@ define(['jquery', 'underscore', 'ractive', 'ractive-backbone', 'ractive-transiti
 
     // Update data
     update: function() {
-      //this.users.fetch();
       this.repos.reset();
-      this.repos.fetch();
+      this.fetchCollection(this.repos);
+    },
+
+    // Wrapper around collection fetch to see what happens and react
+    fetchCollection: function(collection) {
+      var thisApp = this;
+      this.state.set('fetchMessage', '');
+      this.state.set('disableInput', true);
+
+      return collection.fetch().done(function(response) {
+        if (_.isEmpty(response)) {
+          thisApp.state.set('fetchMessage', 'No results found.');
+        }
+        thisApp.state.set('disableInput', false);
+      })
+      .fail(function(response) {
+        thisApp.state.set('fetchMessage', 'An error occured trying to fetch the data.');
+        thisApp.state.set('disableInput', false);
+      });
     }
   });
 

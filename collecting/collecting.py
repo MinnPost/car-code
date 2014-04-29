@@ -13,7 +13,7 @@ if 'GITHUB_TOKEN' in os.environ:
   api_token = os.environ['GITHUB_TOKEN']
 
 # List of users/orgs that we want to track
-accounts = ['minnpost', 'nytimes', 'propublica', 'datadesk', 'texastribune', 'guardianinteractive', 'newsapps', 'nprapps', 'wnyc', 'washingtonpost', 'guardian', 'openNews']
+accounts = ['minnpost', 'nytimes', 'propublica', 'datadesk', 'texastribune', 'guardianinteractive', 'newsapps', 'nprapps', 'wnyc', 'washingtonpost', 'guardian', 'openNews', 'documentcloud', 'ajam', 'sourcefabric', 'quartz', 'censusreporter']
 
 
 # Print json nicely

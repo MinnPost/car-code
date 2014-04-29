@@ -29,21 +29,21 @@
 
     <!-- Templates -->
     <script type="text/template" id="application-template">
-      <form on-submit="prevent" role="form" class="form-inline filter-form small bg-color-lightest-gray cf">
+      <form disabled="{{ state.disableInput }}" on-submit="prevent" role="form" class="form-inline filter-form small bg-color-lightest-gray cf">
 
         <div class="form-item form-part">
           <label for="sort-buttons">Sort by</label>
           <div class="button-group">
-            <button on-tap="sort:created" class="button primary {{#(state.sort === 'created')}}active{{/()}}">Created</button>
-            <button on-tap="sort:updated" class="button primary {{#(state.sort === 'updated')}}active{{/()}}">Updated</button>
+            <button disabled="{{ state.disableInput }}" on-tap="sort:created" class="button primary {{#(state.sort === 'created')}}active{{/()}}">Created</button>
+            <button disabled="{{ state.disableInput }}" on-tap="sort:updated" class="button primary {{#(state.sort === 'updated')}}active{{/()}}">Updated</button>
           </div>
         </div>
 
         <div class="form-item form-part">
-          <select value='{{ state.language }}'>
+          <select disabled="{{ state.disableInput }}" value='{{ state.language }}'>
             <option selected value="">Any language</option>
             {{#languages}}
-            <option value='{{ language }}'>{{ language }}</option>
+            <option value='{{ language }}'>{{ language }} ({{ count }})</option>
             {{/languages}}
           </select>
         </div>
@@ -51,7 +51,7 @@
         <div class="form-item form-part">
           <div class="checkbox">
             <label>
-              <input type="checkbox" name="include-forks" checked="{{ state.include_forked }}"> Include forks
+              <input disabled="{{ state.disableInput }}" type="checkbox" name="include-forks" checked="{{ state.include_forked }}"> Include forks
             </label>
           </div>
         </div>
@@ -59,19 +59,23 @@
         <div class="form-part inline-block">
           <div class="form-item">
             <label for="search-input" class="sr-only">Search</label>
-            <input type="search" id="search-input" placeholder="Search" value="{{ search_proxy }}">
+            <input disabled="{{ state.disableInput }}" type="search" id="search-input" placeholder="Search" value="{{ search_proxy }}">
           </div>
 
-          <button on-tap="search" type="submit" class="button primary search-button"><i class="fa fa-search"></i></button>
+          <button disabled="{{ state.disableInput }}" on-tap="search" type="submit" class="button primary search-button"><i class="fa fa-search"></i></button>
         </div>
       </form>
 
       <div class="repo-list">
-        {{#(!repos.length || repos.length === 0)}}
+        {{#((!repos.length || repos.length === 0) && !state.fetchMessage)}}
           <div class="loading-container">
             <i class="loading"></i> Loading...
           </div>
         {{/()}}
+
+        {{#state.fetchMessage}}
+          <div class="limit-note color-gray small">{{state.fetchMessage}}</div>
+        {{/state.fetchMessage}}
 
         {{#repos}}
           <div class="repo" intro="fade:1000">

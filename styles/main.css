@@ -12,7 +12,7 @@
   padding: 2em 4em;
 }
 
-.mp .filter-form .form-item label {
+.mp .filter-form .form-item label[for="sort-buttons"] {
   padding-right: .5em;
 }
 
@@ -20,8 +20,7 @@
   margin: 0;
 }
 
-.mp .filter-form .checkbox,
-.mp .filter-form .form-item {
+.mp .filter-form .form-parts {
   margin-right: 1em;
 }
 
