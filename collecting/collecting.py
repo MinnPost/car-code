@@ -39,7 +39,6 @@ def parse_link_header(header = None):
 def make_request(method, params = {}, collected = []):
   # Allow for simple method call, or for a whole http request
   call = method if method.startswith('http') else 'https://api.github.com/%s' % (method)
-  print call
   # Make some default headers to send
   headers = { 'Authorization': 'token %s' % (api_token) }
 
@@ -63,11 +62,10 @@ def get_repos():
   for a in accounts:
     repos = make_request('users/%s/repos' % (a))
     for repo in repos:
-      print repo['name']
       data = {
+        'repo_id': '%s-%s' % (a.lower(), repo['name'].lower()),
         'user_id': a.lower(),
         'login': repo['owner']['login'],
-        'repo_id': repo['name'].lower(),
         'name': repo['name'],
         'description': repo['description'],
         'is_fork': repo['fork'],
@@ -77,7 +75,7 @@ def get_repos():
         'created': dateutil.parser.parse(repo['created_at']),
         'updated': dateutil.parser.parse(repo['updated_at'])
       }
-      scraperwiki.sqlite.save(['user_id', 'repo_id'], data, 'repos')
+      scraperwiki.sqlite.save(['repo_id'], data, 'repos')
 
 
 # Get users

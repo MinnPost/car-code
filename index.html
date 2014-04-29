@@ -1,0 +1,83 @@
+<!doctype html>
+<html class="no-js">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>CAR Code | Data Journalism in code</title>
+    <meta name="description" content="A look at code being written by news organizations and individuals.">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <base target="_blank">
+
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+    <link rel="stylesheet" href="bower_components/minnpost-styles/dist/minnpost-styles.min.css">
+    <link rel="stylesheet" href="styles/main.css">
+  </head>
+
+  <body class="mp">
+
+    <div class="minnpost-page-container">
+      <div class="intro">
+        <h1>Data journalism in code</h1>
+        <p>A look at code being written by news organizations and individuals.</p>
+      </div>
+
+      <div id="application-container"></div>
+
+      <div class="footnote">
+        <p>This application is not made for older browsers; <a href="http://browsehappy.com/">deal with it</a>.  Code on <a href="https://github.com/MinnPost/car-code">Github</a>.</p>
+    </div>
+
+    <!-- Templates -->
+    <script type="text/template" id="application-template">
+      <form role="form" class="form-inline filter-form small bg-color-lightest-gray">
+
+        <div class="form-item">
+          <label for="sort-buttons">Sort by</label>
+          <div class="button-group">
+            <button class="button primary {{#(state.sort === 'created')}}active{{/()}}">Created</button>
+            <button class="button primary {{#(state.sort === 'updated')}}active{{/()}}">Updated</button>
+          </div>
+        </div>
+
+        <div class="form-item">
+          <label for="search-input" class="sr-only">Search</label>
+          <input type="search" id="search-input" placeholder="Search">
+        </div>
+
+        <button type="submit" class="button primary">Submit</button>
+      </form>
+
+      <div class="repo-list">
+        {{#(!repos.length || repos.length === 0)}}
+          <div class="loading-container">
+            <i class="loading"></i> Loading...
+          </div>
+        {{/()}}
+
+        {{#repos}}
+          <div class="repo" intro-outro="fade:1000">
+            <h4><a href="{{ url }}">{{ name }}</a></h4>
+            <p><small class="color-medium-gray">{{ login }}</small></p>
+
+            <p>{{ description }} {{^description}}(no description){{/description}} {{#language}}({{ language }}){{/language}}</p>
+          </div>
+        {{/repos}}
+      </div>
+    </script>
+
+    <!-- JS using Require -->
+    <script data-main="js/config" src="bower_components/requirejs/require.js"></script>
+
+    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+    <script>
+      /*
+      (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+      function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+      e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+      e.src='//www.google-analytics.com/analytics.js';
+      r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+      ga('create','UA-XXXXX-X');ga('send','pageview');
+      */
+    </script>
+  </body>
+</html>

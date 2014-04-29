@@ -1,0 +1,30 @@
+/**
+ * Styles for CAR code.  Have to be specific for minnpost styles.
+ */
+
+.mp .intro {
+  margin-bottom: 3em;
+  padding-top: 1em;
+}
+
+.mp .filter-form {
+  margin-bottom: 4em;
+  padding: 2em 4em;
+}
+
+.mp .filter-form .form-item label {
+  padding-right: .5em;
+}
+
+.mp .filter-form .form-item .button-group {
+  margin-bottom: 0;
+  margin-right: 3em;
+}
+
+.mp .repo-list .repo {
+  margin-bottom: 4em;
+}
+
+.mp .repo-list .repo h4 {
+  margin-bottom: .1em;
+}
