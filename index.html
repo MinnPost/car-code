@@ -83,10 +83,12 @@
               <a href="{{ url }}">{{ name }}</a>
             </h4>
             <p class="small color-light-gray">
-              {{ login }} | Created {{ created.fromNow() }} | Updated {{ updated.fromNow() }} |
-              <i class="language-mark fa fa-square" style="color: {{ getLanguage(language).color }}" title="{{ getLanguage(language).language }}"></i>
-              {{ getLanguage(language).language }}
+              {{ user_name }}
+              | <i class="language-mark fa fa-square" style="color: {{ getLanguage(language).color }}" title="{{ getLanguage(language).language }}"></i> {{ getLanguage(language).language }}
+              | Created {{ created.fromNow() }}
+              | Updated {{ updated.fromNow() }}
               {{#is_fork}} | <i class="fa fa-code-fork" title="Forked"></i>{{/is_fork}}
+              | {{ stars }} stars
             </p>
 
             <p>{{ description }} {{^description}}(no description){{/description}}</p>

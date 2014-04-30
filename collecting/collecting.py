@@ -13,7 +13,7 @@ if 'GITHUB_TOKEN' in os.environ:
   api_token = os.environ['GITHUB_TOKEN']
 
 # List of users/orgs that we want to track
-accounts = ['minnpost', 'nytimes', 'propublica', 'datadesk', 'texastribune', 'guardianinteractive', 'newsapps', 'nprapps', 'wnyc', 'washingtonpost', 'guardian', 'openNews', 'documentcloud', 'ajam', 'sourcefabric', 'quartz', 'censusreporter']
+accounts = ['minnpost', 'nytimes', 'propublica', 'datadesk', 'texastribune', 'guardianinteractive', 'newsapps', 'nprapps', 'wnyc', 'washingtonpost', 'guardian', 'openNews', 'documentcloud', 'ajam', 'sourcefabric', 'quartz', 'censusreporter', 'ireapps', 'datawrapper', 'TheAssociatedPress', 'ZeitOnline', 'overview', 'huffpostdata', 'poderopedia', 'LearningLab', 'glasseyemedia', 'stateimpact', 'freedomofpress', 'NUKnightLab', 'superdesk', 'nacion', 'cirlabs', 'BBC-News']
 
 
 # Print json nicely
@@ -65,13 +65,16 @@ def get_repos():
       data = {
         'repo_id': repo['id'],
         'user_id': repo['owner']['id'],
-        'login': repo['owner']['login'],
+        'user_name': repo['owner']['name'] if 'name' in repo['owner'] else repo['owner']['login'],
         'name': repo['name'],
         'description': repo['description'],
         'is_fork': repo['fork'],
         'url': repo['html_url'],
         'homepage': repo['homepage'],
         'language': repo['language'],
+        'stars': repo['stargazers_count'],
+        'watchers': repo['watchers_count'],
+        'forks': repo['forks_count'],
         'created': dateutil.parser.parse(repo['created_at']),
         'updated': dateutil.parser.parse(repo['updated_at'])
       }
@@ -85,10 +88,10 @@ def get_users():
     data = {
       'user_id': user['id'],
       'login': user['login'],
-      'name': user['name'],
+      'name': user['name'] if 'name' in user else user['login'],
       'avatar': user['avatar_url'],
-      'bio': user['bio'],
-      'location': user['location'],
+      'bio': user['bio'] if 'bio' in user else None,
+      'location': user['location'] if 'location' in user else None,
       'type': user['type'],
       'url': user['html_url'],
       'created': dateutil.parser.parse(user['created_at'])
@@ -106,7 +109,7 @@ def make_index():
   # Update content, remove all first
   scraperwiki.sqlite.execute('DELETE FROM repo_index')
   scraperwiki.sqlite.commit()
-  scraperwiki.sqlite.execute("INSERT INTO repo_index (repo_id, content) SELECT repo_id, name || ' ' || description || ' ' || language || ' ' || login FROM repos")
+  scraperwiki.sqlite.execute("INSERT INTO repo_index (repo_id, content) SELECT repo_id, name || ' ' || description || ' ' || language || ' ' || user_name FROM repos")
   scraperwiki.sqlite.commit()
   # Use with SELECT repo_id FROM repo_index WHERE content MATCH 'string'
 
