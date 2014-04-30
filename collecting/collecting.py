@@ -13,7 +13,7 @@ if 'GITHUB_TOKEN' in os.environ:
   api_token = os.environ['GITHUB_TOKEN']
 
 # List of users/orgs that we want to track
-accounts = ['minnpost', 'nytimes', 'propublica', 'datadesk', 'texastribune', 'guardianinteractive', 'newsapps', 'nprapps', 'wnyc', 'washingtonpost', 'guardian', 'openNews', 'documentcloud', 'ajam', 'sourcefabric', 'quartz', 'censusreporter', 'ireapps', 'datawrapper', 'TheAssociatedPress', 'ZeitOnline', 'overview', 'huffpostdata', 'poderopedia', 'LearningLab', 'glasseyemedia', 'stateimpact', 'freedomofpress', 'NUKnightLab', 'superdesk', 'nacion', 'cirlabs', 'BBC-News', 'SCPR', 'PRX', 'vprnet', 'buzzfeednews']
+accounts = ['minnpost', 'nytimes', 'propublica', 'datadesk', 'texastribune', 'guardianinteractive', 'newsapps', 'nprapps', 'wnyc', 'washingtonpost', 'guardian', 'openNews', 'documentcloud', 'ajam', 'sourcefabric', 'quartz', 'censusreporter', 'ireapps', 'datawrapper', 'TheAssociatedPress', 'ZeitOnline', 'overview', 'huffpostdata', 'poderopedia', 'LearningLab', 'glasseyemedia', 'stateimpact', 'freedomofpress', 'NUKnightLab', 'superdesk', 'nacion', 'cirlabs', 'BBC-News', 'SCPR', 'PRX', 'vprnet', 'buzzfeednews', 'mcclatchy']
 
 
 # Print json nicely
@@ -76,7 +76,9 @@ def get_repos():
         'watchers': repo['watchers_count'],
         'forks': repo['forks_count'],
         'created': dateutil.parser.parse(repo['created_at']),
-        'updated': dateutil.parser.parse(repo['updated_at'])
+        # Pushed is time of last commit, while update includes other updates
+        # like dsecription updates
+        'updated': dateutil.parser.parse(repo['pushed_at'])
       }
       scraperwiki.sqlite.save(['repo_id'], data, 'repos')
 
