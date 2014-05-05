@@ -1,2 +1,3 @@
 scraperwiki
 requests
+python-dateutil
