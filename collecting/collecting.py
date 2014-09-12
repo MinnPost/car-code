@@ -13,7 +13,16 @@ if 'GITHUB_TOKEN' in os.environ:
   api_token = os.environ['GITHUB_TOKEN']
 
 # List of users/orgs that we want to track
-accounts = ['minnpost', 'nytimes', 'propublica', 'datadesk', 'texastribune', 'newsapps', 'nprapps', 'wnyc', 'washingtonpost', 'guardian', 'openNews', 'documentcloud', 'ajam', 'sourcefabric', 'quartz', 'censusreporter', 'ireapps', 'datawrapper', 'TheAssociatedPress', 'ZeitOnline', 'overview', 'huffpostdata', 'poderopedia', 'LearningLab', 'glasseyemedia', 'stateimpact', 'freedomofpress', 'NUKnightLab', 'superdesk', 'nacion', 'cirlabs', 'BBC-News', 'SCPR', 'PRX', 'vprnet', 'buzzfeednews', 'mcclatchy', 'registerguard', 'dallasmorningnews', 'voxmedia', 'fivethirtyeight', 'theupshot', 'thunderdome-data', 'sunlightlabs', 'inn', 'stlpublicradio', 'APMG', 'BBC-News-Labs']
+accounts = ['minnpost', 'nytimes', 'propublica', 'datadesk', 'texastribune',
+  'newsapps', 'nprapps', 'wnyc', 'washingtonpost', 'guardian', 'openNews',
+  'documentcloud', 'ajam', 'sourcefabric', 'quartz', 'censusreporter',
+  'ireapps', 'datawrapper', 'TheAssociatedPress', 'ZeitOnline', 'overview',
+  'huffpostdata', 'poderopedia', 'LearningLab', 'glasseyemedia', 'stateimpact',
+  'freedomofpress', 'NUKnightLab', 'superdesk', 'nacion', 'cirlabs', 'BBC-News',
+  'SCPR', 'PRX', 'vprnet', 'buzzfeednews', 'mcclatchy', 'registerguard',
+  'dallasmorningnews', 'voxmedia', 'fivethirtyeight', 'theupshot', 'thunderdome-data',
+  'sunlightlabs', 'inn', 'stlpublicradio', 'APMG', 'BBC-News-Labs',
+  'ftlabs', 'Financial-Times']
 old_accounts = ['guardianinteractive']
 
 # Print json nicely
