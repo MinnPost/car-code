@@ -22,7 +22,7 @@ accounts = ['minnpost', 'nytimes', 'propublica', 'datadesk', 'texastribune',
   'SCPR', 'PRX', 'vprnet', 'buzzfeednews', 'mcclatchy', 'registerguard',
   'dallasmorningnews', 'voxmedia', 'fivethirtyeight', 'theupshot', 'thunderdome-data',
   'sunlightlabs', 'inn', 'stlpublicradio', 'APMG', 'BBC-News-Labs',
-  'ftlabs', 'Financial-Times', 'wraldata', 'theonion']
+  'ftlabs', 'Financial-Times', 'wraldata', 'theonion', 'jplusplus']
 old_accounts = ['guardianinteractive']
 
 # Print json nicely
