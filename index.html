@@ -24,7 +24,7 @@
       <div id="application-container"></div>
 
       <div class="footnote">
-        <p>This application is not made for older browsers; <a href="http://browsehappy.com/">deal with it</a>.  Code on <a href="https://github.com/MinnPost/car-code">Github</a>.</p>
+        <p>This application is not made for older browsers; <a href="http://browsehappy.com/">deal with it</a>.  Code on <a href="https://github.com/MinnPost/car-code">Github</a>.  <sup>&dagger;</sup>The date that the repo was made public is not actually provided by Github, so this is a best guess.</p>
     </div>
 
     <!-- Templates -->
@@ -34,13 +34,14 @@
         <div class="form-item form-part">
           <label for="sort-buttons">Sort by</label>
           <div class="button-group">
-            <button disabled="{{ state.disableInput }}" on-tap="sort:created" class="button primary {{#(state.sort === 'created')}}active{{/()}}">Created</button>
-            <button disabled="{{ state.disableInput }}" on-tap="sort:updated" class="button primary {{#(state.sort === 'updated')}}active{{/()}}">Updated</button>
+            <button disabled="{{ state.disableInput }}" on-tap="sort:made_public" class="button primary {{#(state.sort === 'made_public')}}active{{/()}}" title="Sort by the date the repo was made public">Made public<sup>&dagger;</sup></button>
+            <button disabled="{{ state.disableInput }}" on-tap="sort:created" class="button primary {{#(state.sort === 'created')}}active{{/()}}" title="Sort by the date the repo was created">Created</button>
+            <button disabled="{{ state.disableInput }}" on-tap="sort:updated" class="button primary {{#(state.sort === 'updated')}}active{{/()}}" title="Sort by the date the repo was last committed to">Updated</button>
           </div>
         </div>
 
         <div class="form-item form-part">
-          <select disabled="{{ state.disableInput }}" value='{{ state.language }}'>
+          <select disabled="{{ state.disableInput }}" value="{{ state.language }}" title="Filter by main code language">
             <option selected value="">Any language</option>
             {{#languages}}
             <option value='{{ language }}'>{{ language }} ({{ count }})</option>
@@ -51,7 +52,7 @@
         <div class="form-item form-part">
           <div class="checkbox">
             <label>
-              <input disabled="{{ state.disableInput }}" type="checkbox" name="include-forks" checked="{{ state.include_forked }}"> Include forks
+              <input disabled="{{ state.disableInput }}" type="checkbox" name="include-forks" checked="{{ state.include_forked }}" title="Include repos that are forks"> Forks
             </label>
           </div>
         </div>
@@ -59,7 +60,7 @@
         <div class="form-part inline-block">
           <div class="form-item">
             <label for="search-input" class="sr-only">Search</label>
-            <input disabled="{{ state.disableInput }}" type="search" id="search-input" placeholder="Search" value="{{ search_proxy }}">
+            <input disabled="{{ state.disableInput }}" type="search" id="search-input" placeholder="Search" value="{{ search_proxy }}" title="Search title and description by keyword">
           </div>
 
           <button disabled="{{ state.disableInput }}" on-tap="search" type="submit" class="button primary search-button"><i class="fa fa-search"></i></button>
@@ -85,6 +86,9 @@
             <p class="small color-light-gray">
               {{ user_name }}
               | <i class="language-mark fa fa-square" style="color: {{ getLanguage(language).color }}" title="{{ getLanguage(language).language }}"></i> {{ getLanguage(language).language }}
+              {{#made_public}}
+                | Made public<sup>&dagger;</sup> {{ made_public.fromNow() }}
+              {{/made_public}}
               | Created {{ created.fromNow() }}
               | Updated {{ updated.fromNow() }}
               {{#is_fork}} | <i class="fa fa-code-fork" title="Forked"></i>{{/is_fork}}
@@ -105,7 +109,7 @@
 
     <!-- JS using Require -->
     <script data-main="js/config" src="bower_components/requirejs/require.js"></script>
-    
+
     <!-- Google analytics -->
   	<script type="text/javascript">
       if (window.location && window.location.hostname &&

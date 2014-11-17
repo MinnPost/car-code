@@ -38,10 +38,13 @@ define(['underscore', 'backbone', 'moment', 'mpConfig'], function(_, Backbone, m
     parse: function(response) {
       return _.map(response, function(r, ri) {
         if (r.created) {
-          r.created = moment(r.created);
+          r.created = moment.utc(r.created);
         }
         if (r.updated) {
-          r.updated = moment(r.updated);
+          r.updated = moment.utc(r.updated);
+        }
+        if (r.made_public) {
+          r.made_public = moment.utc(r.made_public);
         }
         if (!_.isUndefined(r.language)) {
           r.language = (r.language) ? r.language : 'unknown';
@@ -64,7 +67,8 @@ define(['underscore', 'backbone', 'moment', 'mpConfig'], function(_, Backbone, m
       query += (options.language && options.language === 'unknown') ?
         "AND (language = '' OR language IS NULL) " : " ";
       query += (!options.search) ? " " :
-        "AND repo_id IN (SELECT repo_id FROM repo_index WHERE content MATCH '" + options.search + "')";
+        "AND ( name LIKE '%" + options.search.replace(/\s/ig, '%') + "%' " +
+        "  OR description LIKE '%" + options.search.replace(/\s/ig, '%') + "%') ";
       query += "ORDER BY " + ((options.sort) ? options.sort + " " : "created ");
       query += (options.direction) ? options.direction + " " : "DESC ";
       query += (options.limit) ? "LIMIT " + options.limit + " " : "LIMIT 100 ";

@@ -22,7 +22,7 @@ define(['jquery', 'underscore', 'ractive', 'ractive-backbone', 'ractive-transiti
 
       // Model to help with state and options
       this.state = new p.StateModel({
-        sort: 'created',
+        sort: 'made_public',
         include_forked: false,
         language: '',
         search: '',
@@ -108,7 +108,7 @@ define(['jquery', 'underscore', 'ractive', 'ractive-backbone', 'ractive-transiti
         }
         thisApp.state.set('disableInput', false);
       })
-      .fail(function(response) {
+      .error(function(response) {
         thisApp.state.set('fetchMessage', 'An error occured trying to fetch the data.');
         thisApp.state.set('disableInput', false);
       });
