@@ -9,7 +9,7 @@ import dateutil.parser
 from datetime import datetime
 import re
 
-# Get a token.    Make sure not to save any tokens here.
+# Get a token. Make sure not to save any tokens here.
 api_token = ''
 if 'GITHUB_TOKEN' in os.environ:
     api_token = os.environ['GITHUB_TOKEN']
@@ -25,7 +25,7 @@ accounts = ['minnpost', 'nytimes', 'propublica', 'datadesk', 'texastribune',
     'dallasmorningnews', 'voxmedia', 'fivethirtyeight', 'theupshot', 'thunderdome-data',
     'sunlightlabs', 'inn', 'stlpublicradio', 'APMG', 'BBC-News-Labs',
     'ftlabs', 'Financial-Times', 'wraldata', 'theonion', 'jplusplus', 'datanews',
-    'tarbell-project', 'newslynx']
+    'tarbell-project', 'newslynx', 'bvisualdata', 'bloomberg']
 old_accounts = ['guardianinteractive']
 
 
@@ -36,6 +36,10 @@ users_table_exists = True if scraperwiki.sql.select("name FROM sqlite_master WHE
 
 # Index created
 repos_index_created = False
+
+# New users.  This is used to help try to make the made public date a bit
+# more accurate
+new_users = []
 
 
 # Print json nicely
@@ -98,6 +102,7 @@ def get_repos():
     global accounts
     global repos_table_exists
     global repos_index_created
+    global new_users
 
     for a in accounts:
         repos = make_request('users/%s/repos' % (a))
@@ -124,8 +129,9 @@ def get_repos():
             # We actually want to know when the repo was "made public",
             # but there is nothing to actually note this, so we guess
             # by marking when we first see it.  But this falls apart if data
-            # is start over, like deleting the table.
-            if repos_table_exists:
+            # is start over, like deleting the table, or even if we add a
+            # new user.  We try to get around new users by checking for them.
+            if repos_table_exists and data['user_name'].lower() not in new_users:
                 found_data = scraperwiki.sql.select("* FROM repos WHERE repo_id = '%s'" % (data['repo_id']))
                 if found_data == []:
                     data['made_public'] = datetime.utcnow()
@@ -152,10 +158,17 @@ def get_repos():
 def get_users():
     global accounts
     global users_table_exists
+    global new_users
 
     for a in accounts:
-        user = make_request('users/%s' % (a))
+        # Check to see if already in db for the made public date
+        if users_table_exists:
+            found_data = scraperwiki.sql.select("* FROM users WHERE LOWER(login) = LOWER('%s')" % (a))
+            if found_data == []:
+                new_users.append(a.lower())
 
+        # Get data from github
+        user = make_request('users/%s' % (a))
         if 'message' in user and user['message'].lower() == 'not found':
             return
 
