@@ -1,2 +1,3 @@
 scraperwiki.sqlite
 !dist
+.env
