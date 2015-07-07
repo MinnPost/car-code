@@ -68,6 +68,7 @@ define(['underscore', 'backbone', 'moment', 'mpConfig'], function(_, Backbone, m
         "AND (language = '' OR language IS NULL) " : " ";
       query += (!options.search) ? " " :
         "AND ( name LIKE '%" + options.search.replace(/\s/ig, '%') + "%' " +
+        "  OR user_name LIKE '%" + options.search.replace(/\s/ig, '%') + "%' " +
         "  OR description LIKE '%" + options.search.replace(/\s/ig, '%') + "%') ";
       query += "ORDER BY " + ((options.sort) ? options.sort + " " : "created ");
       query += (options.direction) ? options.direction + " " : "DESC ";
