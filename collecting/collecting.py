@@ -18,7 +18,7 @@ if 'GITHUB_TOKEN' in os.environ:
 accounts = ['minnpost', 'nytimes', 'propublica', 'datadesk', 'texastribune',
     'newsapps', 'nprapps', 'wnyc', 'washingtonpost', 'guardian', 'openNews',
     'documentcloud', 'ajam', 'sourcefabric', 'quartz', 'censusreporter',
-    'ireapps', 'datawrapper', 'associatedpress', 'ZeitOnline', 'overview',
+    'ireapps', 'datawrapper', 'TheAssociatedPress', 'associatedpress', 'ZeitOnline', 'overview',
     'huffpostdata', 'poderopedia', 'LearningLab', 'glasseyemedia', 'stateimpact',
     'freedomofpress', 'NUKnightLab', 'superdesk', 'nacion', 'cirlabs', 'BBC-News',
     'SCPR', 'PRX', 'vprnet', 'buzzfeednews', 'mcclatchy', 'registerguard',
