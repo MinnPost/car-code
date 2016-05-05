@@ -28,7 +28,7 @@ accounts = ['minnpost', 'nytimes', 'propublica', 'datadesk', 'texastribune',
     'tarbell-project', 'newslynx', 'bvisualdata', 'bloomberg', 'seattletimes',
     'newsdev', 'denverpost', 'themarshallproject', 'dowjones', 'InsideEnergy', 'times',
     'buzzfeed-openlab', 'newsappsio', 'lowerquality', 'wireservice', 'motherjones', 'PalmBeachPost',
-    'statesman', 'datamade']
+    'statesman', 'datamade', 'NewsappAJC']
 old_accounts = ['guardianinteractive']
 
 
